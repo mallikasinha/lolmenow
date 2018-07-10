@@ -33,15 +33,15 @@ LOGGING = {
             'level': 'INFO',
             'class':'logging.handlers.RotatingFileHandler',
             'filename': '/tmp/conflicto_api.log',
-            'maxBytes': 1024*1024*50, # 50 MB
+            'maxBytes': 1024*1024*50,  # 50 MB
             'backupCount': 5,
             'formatter': 'verbose'
         },
         'cronfile': {
             'level': 'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
+            'class': 'logging.handlers.RotatingFileHandler',
             'filename': '/tmp/conflicto_api.log',
-            'maxBytes': 1024*1024*50, # 50 MB
+            'maxBytes': 1024*1024*50,  # 50 MB
             'backupCount': 5,
             'formatter': 'verbose'
         }
@@ -51,13 +51,13 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': True,
         },
-        'conflicto':{
-            'handlers':['file'],
+        'conflicto': {
+            'handlers': ['file'],
             'propogate': True,
             'level': 'INFO'
         },
-        'cron':{
-            'handlers':['cronfile'],
+        'cron': {
+            'handlers': ['cronfile'],
             'propogate': True,
             'level': 'INFO'
         }

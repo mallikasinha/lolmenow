@@ -1,7 +1,15 @@
 from email.mime import image
 
 from django.db import models
+from django.utils import timezone
 from django.utils.datetime_safe import datetime
+from enum import Enum
+
+
+class ActionChoice(Enum):   # A subclass of Enum
+    like: int = models.IntegerField()
+    share: int = models.IntegerField()
+    comment: str = models.CharField(max_length=255, blank=False, unique=True)
 
 
 class User(models.Model):
@@ -12,7 +20,8 @@ class User(models.Model):
     mobile_number: int = models.IntegerField
     username: str = models.CharField(max_length=200)
     password: str = models.CharField(max_length=200)
-    date_created: datetime = models.DateField("Date", default=datetime.date.today)
+    url: str = ""
+    date_created: datetime = models.DateTimeField(auto_now=True, default=timezone.now)
 
     def __str__(self):
         return self.name
@@ -22,6 +31,10 @@ class Story(models.Model):
     title: str = models.CharField(max_length=255, blank= False, unique=True)
     description: str = models.CharField(max_length=255, blank=False, unique=True)
     language: str = models.CharField(max_length=255, blank=False, unique=True)
+    status: str = models.CharField(max_length=255, blank=False, unique=True)
+    moral: str = models.CharField()
+    summary: str = models.CharField()
+    categories: str = ""
     url: str = ""
     date_created = models.DateField("Date", default=datetime.date.today)
     thumbnail: image = models.ImageField()
@@ -38,13 +51,16 @@ class Story(models.Model):
 
 
 class Action(models.Model):
-    like: int = models.IntegerField()
-    share: int = models.IntegerField()
-    comment: str = models.CharField(max_length=255, blank=False, unique=True)
+    action = [(tag, tag.value) for tag in ActionChoice]
     date_created = models.DateField("Date", default=datetime.date.today)
     # a story can have multiple action
     story = models.ForeignKey(
         Story,
+        null=True,
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        User,
         null=True,
         on_delete=models.CASCADE
     )
