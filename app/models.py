@@ -26,6 +26,12 @@ class Story(models.Model):
     date_created = models.DateField("Date", default=datetime.date.today)
     thumbnail: image = models.ImageField()
     image: image = ""
+    # a user can write multiple story
+    user = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.title
@@ -34,8 +40,14 @@ class Story(models.Model):
 class Action(models.Model):
     like: int = models.IntegerField()
     share: int = models.IntegerField()
-    comment: str = models.CharField(max_length=255, blank= False, unique=True)
-    date_created= models.DateField("Date", default=datetime.date.today)
+    comment: str = models.CharField(max_length=255, blank=False, unique=True)
+    date_created = models.DateField("Date", default=datetime.date.today)
+    # a story can have multiple action
+    story = models.ForeignKey(
+        Story,
+        null=True,
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.comment
